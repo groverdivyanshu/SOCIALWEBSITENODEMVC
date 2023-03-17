@@ -1,6 +1,114 @@
+
+const User=require("../models/user");
+
+
 module.exports.profile=function(req,res)
 {
     return res.render('user',{
         title:"new user page",
     })
+}
+
+
+//Render the signin page
+module.exports.sign_in=function(req,res)
+{
+
+    return res.render('user-sigin',{
+        title:"codeial sigin page",
+    })
+}
+
+
+//Render the signup page
+module.exports.sign_up=function(req,res)
+{
+
+    return res.render('usersignup',{
+        title:"codeial sigup page",
+    })
+}
+//get the signup data
+module.exports.create= async function(req,res)
+{
+ try{     
+if(req.body.password!=req.body.confirmpassword)
+{
+    return res.redirect('back');
+}
+
+const user=await User.findOne({email:req.body.email})
+
+if(!user)
+{
+    const newuser=await User.create(req.body);
+    if(newuser)
+    {
+        return res.redirect('/user/sign_in');
+    }
+    
+}
+ }
+ catch(err)
+ {
+    console.log("Error is coming",err);
+    return;
+ }
+}
+// module.exports.create=function(req,res)
+// {
+// User.findOne({email:req.body.email})
+// .then((user)=>{
+//     if(!user)
+//     {
+//     User.create(req.body)
+//     .then((newuser)=>{
+//         return res.redirect('/user/sign_in');
+        
+//     })
+//     .catch((err)=>{
+//         console.log("error is comig00");
+//         return;
+//     })
+//     }
+// }).catch((err)=>{
+//     console.log("Error is coming",err);
+// })
+// }
+    //  function(err,user){
+    // if(err){
+    //     console.log("error is finding to user")
+    //     return;
+    // }
+    // if(!user)
+    // {
+    //     User.create(req.body,function(err,user){
+    //     if(err)
+    //     {
+    //         console.log("Error is coming while signup the user");
+    //         return;
+    //     }
+
+// return res.redirect('/user/sign_in');
+//         })
+//     }
+//     else
+//     {
+//         return res.redirect('back'); 
+//     }
+
+// }
+
+
+
+
+
+
+
+
+//sigin and create session for the user
+module.exports.createsession=function(req,res)
+{
+
+    //TOdo
 }
