@@ -1,12 +1,13 @@
 <header>
-    Page Headear
+    Coideal
 
     <ul>
         <% if(locals.user){%>
-            <li><a href="/user/profile"><%=user.name%></li>
             <li>
                 <a href="/user/sign_out">SignOut</a>
             </li>
+            <li><a href="/user/profile"><%=user.name%></li>
+         
 
     <%    } else {%>
         <li>

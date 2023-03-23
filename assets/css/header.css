@@ -1,3 +1,15 @@
-
+ul {
+  display: flex;
+  list-style: none;
+  flex-direction: row-reverse;
+  background-color: cyan;
+  margin-top: -19px;
+}
+ul li {
+  height: 50px;
+  width: 70px;
+  margin-right: 20px;
+  font-size: 20px;
+}
 
 /*# sourceMappingURL=header.css.map */
