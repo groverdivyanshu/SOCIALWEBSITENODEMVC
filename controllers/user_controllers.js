@@ -13,6 +13,9 @@ module.exports.profile=function(req,res)
 //Render the signin page
 module.exports.sign_in=function(req,res)
 {
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
 
     return res.render('user-sigin',{
         title:"codeial sigin page",
@@ -23,6 +26,9 @@ module.exports.sign_in=function(req,res)
 //Render the signup page
 module.exports.sign_up=function(req,res)
 {
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
 
     return res.render('usersignup',{
         title:"codeial sigup page",
@@ -110,5 +116,15 @@ if(!user)
 module.exports.createsession=function(req,res)
 {
 
-    //TOdo
+   return res.redirect('/');
+}
+
+//signout user
+
+module.exports.destroysession=function(req,res,next){
+
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+})
 }
