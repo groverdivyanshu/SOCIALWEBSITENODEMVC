@@ -2,13 +2,32 @@
 const User=require("../models/user");
 
 
-module.exports.profile=function(req,res)
+module.exports.profile= async function(req,res)
 {
+   const user=await User.findById(req.params.id)
     return res.render('user',{
         title:"new user page",
-    })
+        profileuser:user
+    });
 }
 
+module.exports.update= async function(req,res)
+{
+    try{
+
+if(req.user.id==req.params.id)
+{
+   const user =await User.findByIdAndUpdate(req.params.id,req.body);
+  return res.redirect('back');    
+}
+else
+{
+    return res.status(401).send('Unauthorize');
+}
+    }catch(err){
+        console.log("error is coming",err);
+    }
+}
 
 //Render the signin page
 module.exports.sign_in=function(req,res)

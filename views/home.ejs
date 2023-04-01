@@ -17,15 +17,24 @@
 <%}%>
  <div id="posts-list-container">
         <ul>
-                <% for(post of posts) {%>
-                        <li><%=post.content%></li>
-                        <small><li><%=post.user.name    %></li></small>
-
+               
                 
-        
-        <% }%>
+                <% for(post of posts) {%>
+
+                  <%- include('_post')-%>
+                        <% }%>
+       
         </ul>
 
  </div>
 
+</section>
+
+<section id="user-friends">
+<h4>friends</h4>
+<% for(u of alluser){%>
+<p>
+        <a href="/user/profile/<%=u.id%>"><%=u.name%></a>
+</p>
+       <%}%> 
 </section>

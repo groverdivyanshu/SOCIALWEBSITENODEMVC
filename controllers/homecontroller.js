@@ -1,4 +1,5 @@
 const Post=require('../models/post');
+const User=require('../models/user');
 
 module.exports.home= async function(req,res){
 
@@ -6,12 +7,21 @@ module.exports.home= async function(req,res){
     // return res.render('home',{
     //     title:"divyanshu",
 try{
-  const post=await Post.find({}).populate('user');
+    // find the user who posted 
+  const post=await Post.find({}).populate('user')
+  .populate({
+path:'comments',
+populate:{
+  path:'user'
+}
+  });
   if(post)
   {
+  const user=  await User.find({});
   return res.render('home',{
     title:"codeial home",
     posts:post,
+    alluser:user
   });
 }
 }
