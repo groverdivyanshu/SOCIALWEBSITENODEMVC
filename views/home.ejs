@@ -1,11 +1,8 @@
 <link rel="stylesheet" href="\css\home.css">
        
-        <h1>
-                Home/controller<%=title%>
-        </h1>
-       <br>
-       <br>
-
+       
+<div id="container">
+        
 <section id="feed-post">
         <h4>Posts</h4>
         <% if(locals.user){%>
@@ -34,7 +31,11 @@
 <h4>friends</h4>
 <% for(u of alluser){%>
 <p>
+        
         <a href="/user/profile/<%=u.id%>"><%=u.name%></a>
 </p>
        <%}%> 
 </section>
+</div>
+
+<script  src="\js\home_posts.js"></script>    

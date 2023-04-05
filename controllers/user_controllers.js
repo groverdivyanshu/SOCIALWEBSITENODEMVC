@@ -59,6 +59,7 @@ module.exports.create= async function(req,res)
  try{     
 if(req.body.password!=req.body.confirmpassword)
 {
+
     return res.redirect('back');
 }
 
@@ -135,6 +136,7 @@ if(!user)
 module.exports.createsession=function(req,res)
 {
 
+    req.flash('success',"Logged in Succesfuuly");
    return res.redirect('/');
 }
 
@@ -144,6 +146,7 @@ module.exports.destroysession=function(req,res,next){
 
     req.logout(function(err) {
         if (err) { return next(err); }
+        req.flash('success',"you have logged out");
         res.redirect('/');
 })
 }

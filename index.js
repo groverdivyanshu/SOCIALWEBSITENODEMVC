@@ -3,7 +3,8 @@ const cookieParser=require('cookie-parser');
 const app=express();
 const port=8000;
 const expresslayout=require('express-ejs-layouts');
-
+const flash=require('connect-flash');
+const Custommiddleware=require('./config/middleware');
 const db=require('./config/mongoose')
 //use for session cookie
 const session=require('express-session');
@@ -46,6 +47,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+app.use(Custommiddleware.setFlash);
 app.use(passport.setAuthenticatedUser);
 //set view engine and 
 
