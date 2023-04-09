@@ -16,11 +16,13 @@ const MongoStore=require('connect-mongo');
 
 //use express router
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:true}));
 
 app.use(cookieParser());
 app.use(expresslayout);
 app.use(express.static('./assets'))
+//make the uploads available to the browser
+app.use('/uploads', express.static(__dirname +'/uploads'));
 app.set('layout extractStyles', true);
 app.set('layout extractScripts',true);
 

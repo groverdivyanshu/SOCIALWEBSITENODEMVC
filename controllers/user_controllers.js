@@ -1,6 +1,7 @@
 
 const User=require("../models/user");
-
+const fs=require('fs');
+const path=require('path');
 
 module.exports.profile= async function(req,res)
 {
@@ -13,20 +14,56 @@ module.exports.profile= async function(req,res)
 
 module.exports.update= async function(req,res)
 {
-    try{
+//     try{
 
-if(req.user.id==req.params.id)
+// if(req.user.id==req.params.id)
+// {
+//    const user =await User.findByIdAndUpdate(req.params.id,req.body);
+//   return res.redirect('back');    
+// }
+// else
+// {
+//     return res.status(401).send('Unauthorize');
+// }
+//     }catch(err){
+//         console.log("error is coming",err);
+//     }
+if(req.user.id==req.params.id){
+try{
+    let user=await User.findById(req.params.id);
+    User.uploadedavatar(req,res,function(err){
+        if(err)
+        {
+            console.log('***** Error',err);
+        }
+        user.name=req.body.name;
+        user.email=req.body.email;
+        console.log(req.file);
+      if(req.file)
+      {
+        if(user.avatar)
+        {
+            fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+        }
+        //this is saving the path of the uplaoded file into avavatar field in the user
+        user.avatar=User.avatarpath+'/'+req.file.filename;
+      }
+           user.save();
+           return res.redirect('back');
+    })
+}
+catch(err)
 {
-   const user =await User.findByIdAndUpdate(req.params.id,req.body);
-  return res.redirect('back');    
+    req.flash('error',err);
+    return res.redirect('back');
+}
 }
 else
 {
     return res.status(401).send('Unauthorize');
-}
-    }catch(err){
-        console.log("error is coming",err);
+      console.log("error is coming",err);
     }
+
 }
 
 //Render the signin page

@@ -13,7 +13,7 @@ const post=await Post.create({
 
     content:req.body.content,
     user:req.user._id})
-    post.populate('user','-password');
+   await post.populate('user','-password');
     req.flash('success','Post published');
   if(post)
   {

@@ -15,8 +15,11 @@
                 {
                     console.log(data1);
                    let newpost=newpostdom(data1.data.post);
+            
+                   console.log(newpost);
                    $('#posts-list-container>ul').prepend(newpost);
                    deletePost($(' .delete-post-button',newpost))
+                   
                 
 
                 },error:function(error)
@@ -62,7 +65,9 @@
     </li>
     
     `)
+  
     }
+    
 //Method to delete a post from DOM
 
 let deletePost=function(deletelink)
@@ -71,7 +76,7 @@ let deletePost=function(deletelink)
     $(deletelink).click(function(e){
         e.preventDefault();
 
-    console.log($(deletelink).prop('href'));
+    // console.log($(deletelink).prop('href'));
        
 
         $.ajax({
@@ -81,6 +86,13 @@ let deletePost=function(deletelink)
             success:function(data)
          { 
               $(`#post-${data.data.post_id}`).remove();
+            //   new Noty({
+            //     theme:"relax",
+            //     type: 'warning',
+            //     layout: 'topRight',
+            //     text: "Post Deleted",
+            //     timeout:2000
+            //   }).show();
             
             },
 
@@ -107,5 +119,102 @@ $('.delete-post-button').each(function(){
     deletePost($(this));
 })
 
+
+//create comment by ajax
+  
+let createcomment=function()
+{
+    let newcomment=$(".post-comment-create").each(function(){
+
+       $(this).submit(function(e){
+            e.preventDefault();
+       
+            
+            $.ajax({
+                type:'post',
+                url:'/comment/create',
+                data:$(this).serialize(),
+                success:function(data)
+                {
+                //    console.log(data);
+                    let printcommnet=print(data.data);
+
+                    
+                    $(`#post-comment-${data.data.comments.post}`).prepend(printcommnet);
+                    
+                },
+                error:function(error)
+                {
+                    console.log(error.responseText);
+                }
+            })
+        })
+    })
+    
+   
+
+}
+
+//print comment in dom
+function print(data)
+{
+   const {comments,user}=data;
+    return $(`<li>
+    <p>
+        
+    
+    <a href="/comment/destroy/${comments._id}">X</a>
+               
+    ${comments.content} 
+    <br>
+    <small>
+    ${user.name}    
+    </small>
+    </p>
+    </li>`)
+    
+    
+    
+   
+}
+
+//delete comment in dom
+
+function deletecomments(deletecomment)
+{
+    $(deletecomment).click(function(e){
+
+e.preventDefault();
+
+
+$.ajax({
+
+    type:"get",
+    url:$(deletecomment).prop('href'),
+    success:function(data)
+    {
+        // console.log(data.data.comments._id);      
+        $(`#${data.data.comments._id}`).remove();  
+    //    $(`#data.data.${comments._id}`).remove();
+
+    },
+    error:function(err)
+    {
+        console.log("Error is coming",err);
+    }
+    
+})
+
+
+})
+}
+
+$('.delete-comments').each(function(){
+
+    deletecomments($(this));
+})
+
+createcomment();
     createpost();
+   
 }
