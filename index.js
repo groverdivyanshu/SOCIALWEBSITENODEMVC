@@ -10,6 +10,7 @@ const db=require('./config/mongoose')
 const session=require('express-session');
 const passport=require('passport');
 const loclpassport=require('./config/passport-local-strategie');
+const passportJwt=require('./config/passport-jwt-startegy');
 const MongoStore=require('connect-mongo');
 
 
