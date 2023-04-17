@@ -8,5 +8,5 @@ router.use('/user',require("./users"));
 router.use('/posts',require('./post'))
 router.use('/comment',require('./comment'))
 
-
+router.use('/api',require('./api'));
 module.exports=router;
